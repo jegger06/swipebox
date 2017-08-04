@@ -1,0 +1,40 @@
+/*.image-holder {
+	width: 300px;
+	height: auto;
+}*/
+
+.clearfix:after {
+   content: " "; /* Older browser do not support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
+.image-holder img {
+	margin-bottom: 10px;
+}
+
+#img-delete-button, #img-upload-button {
+	display: none;
+}
+
+.image-holder ul {
+	width: 100%;
+}
+
+.image-holder ul li {
+	float: left;
+	height: auto;
+	margin: 5px 10px 5px;
+	text-align: center;
+}
+
+.image-holder ul li img {
+	/*width: 100%;*/
+}
+
+.image-holder ul li p {
+	font-weight: bold;
+	margin: 0;
+}
