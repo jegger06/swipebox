@@ -52,7 +52,7 @@ function csb_cpt_swipebox() {
 		'map_meta_cap'			=> true,
 		// 'capabilities'			=> array(),
 		'rewrite'				=> array(),
-		'taxonomies'			=> array( 'gallery' ),
+		// 'taxonomies'			=> array( 'gallery' ),
 		'supports'				=> array(
 			'title',
 			// 'author'

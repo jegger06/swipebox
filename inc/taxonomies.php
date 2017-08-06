@@ -8,7 +8,8 @@
 =================================
 
 */
-
+/*
+* We don't need anymore the gallery taxonomy.
 function csb_swipebox_taxonomy() {
 
 	$singular = 'Gallery';
@@ -48,3 +49,5 @@ function csb_swipebox_taxonomy() {
 }
 
 add_action( 'init', 'csb_swipebox_taxonomy' );
+
+*/

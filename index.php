@@ -18,3 +18,6 @@ require_once ( SWIPEBOX . '/inc/custom-post-type.php' );
 require_once ( SWIPEBOX . '/inc/taxonomies.php' );
 require_once ( SWIPEBOX . '/inc/meta-boxes.php' );
 require_once ( SWIPEBOX . '/inc/enqueue.php' );
+require_once ( SWIPEBOX . '/inc/custom-columns.php' );
+require_once ( SWIPEBOX . '/inc/custom-action.php' );
+require_once ( SWIPEBOX . '/inc/shortcode.php' );

@@ -36,8 +36,11 @@ customUploader.on('select', function() {
 	var id = '';
 	var comma = '';
 	var html = '<ul class="clearfix">';
+	var caption = '';
 	for (var i = 0; i < attachment.length; i++) {
-		html += '<li><img width="' + attachment[i].sizes.thumbnail.width + '" height="' + attachment[i].sizes.thumbnail.height + '" src="' + attachment[i].sizes.thumbnail.url + '" class="attachment-thumbnail size-thumbnail" alt="" /><p>' + attachment[i].caption + '</p></li>';
+
+		caption = (attachment[i].caption === '') ? 'Please set the image caption' : attachment[i].caption;
+		html += '<li><img width="' + attachment[i].sizes.thumbnail.width + '" height="' + attachment[i].sizes.thumbnail.height + '" src="' + attachment[i].sizes.thumbnail.url + '" class="attachment-thumbnail size-thumbnail" alt="" /><p>' + caption + '</p></li>';
 		id += '{"id":'+ attachment[i].id +',"src":"'+ attachment[i].url +'"}';
 		if ((i + 1) != attachment.length) {
 			id += ',';
