@@ -65,11 +65,19 @@ function csb_shortcode( $atts, $content = NULL ) {
 
 		} else {
 
-			echo '<pre>';
-			echo var_dump(is_null( $post ));
-			die();
+			$args = array(
+				'post_type' => 'custom-swipebox',
+				'post_name__in' => array( 'another-sample' ),
+				'post_status' => 'any'
+			);
 
-			if ( is_null( $post ) ) {
+			$query = new WP_Query($args);
+
+			// echo '<pre>';
+			// echo var_dump( empty( $query->post ) );
+			// die();
+
+			if ( empty( $query->post ) ) {
 
 				return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid swipebox name. Please check it.</div>';
 
