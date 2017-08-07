@@ -30,6 +30,7 @@ add_action( 'admin_enqueue_scripts', 'csb_enqueue_scripts' );
 function csb_register_script() {
 
 	wp_register_style( 'swipebox-css', plugin_dir_url( __FILE__ ) . 'frontend/css/swipebox.min.css', array(), '1.3.0', 'all' );
+	wp_register_style( 'custom-swipebox-css', plugin_dir_url( __FILE__ ) . 'frontend/css/custom.swipebox.css', array(), '0.0.1', 'all' );
 	wp_register_script( 'swipebox-script', plugin_dir_url( __FILE__ ) . 'frontend/js/jquery.swipebox.min.js', array( 'jquery' ), '1.3.0', true );
 	wp_register_script( 'custom-swipebox-script', plugin_dir_url( __FILE__ ) . 'frontend/js/custom.swipebox.js', array( 'jquery' ), '0.0.1', true );
 

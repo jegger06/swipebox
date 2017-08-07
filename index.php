@@ -16,6 +16,7 @@ define( 'SWIPEBOX', plugin_dir_path( __FILE__ ) );
 
 require_once ( SWIPEBOX . '/inc/custom-post-type.php' );
 require_once ( SWIPEBOX . '/inc/taxonomies.php' );
+require_once ( SWIPEBOX . '/inc/custom-functions.php' );
 require_once ( SWIPEBOX . '/inc/meta-boxes.php' );
 require_once ( SWIPEBOX . '/inc/enqueue.php' );
 require_once ( SWIPEBOX . '/inc/custom-columns.php' );

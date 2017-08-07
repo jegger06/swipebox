@@ -21,19 +21,23 @@ function csb_shortcode( $atts, $content = NULL ) {
 		),
 		$atts
 	);
+	
+	if ( $atts['name'] != 'empty' && $atts['name'] != '' ) {
 
-	if ( $atts['name'] != 'empty' ) {
-
-		$post = get_page_by_title( $atts['name'], OBJECT, 'custom-swipebox' );
-
+		$post = get_page_by_path( $atts['name'], OBJECT, 'custom-swipebox' );
 
 		if ( $post->post_status === 'publish' ) {
+
+			wp_enqueue_style( 'swipebox-css' );
+			wp_enqueue_style( 'custom-swipebox-css' );
+			wp_enqueue_script( 'swipebox-script' );
+			wp_enqueue_script( 'custom-swipebox-script' );
 
 			$postID = $post->ID;
 
 			$images = get_post_meta( $postID, 'swipebox_image', true );
 
-			$displaylist = '<div class="w3ls-gallery-grids">';
+			$displaylist .= '<ul class="swipebox-list clearfix">';
 
 				foreach ($images as $image => $value) {
 
@@ -41,41 +45,46 @@ function csb_shortcode( $atts, $content = NULL ) {
 					$caption = ( !empty( $image->post_excerpt ) ) ? $image->post_excerpt : 'Please set the caption of this image!';
 					$alt = ( !empty(get_post_meta( $value['id'], '_wp_attachment_image_alt', true ) ) ) ? get_post_meta( $value['id'], '_wp_attachment_image_alt', true ) : 'You can set the alt on the image on media post type.';
 
-					$displaylist .= '<div class="col-md-4 gal-grid">';
-						$displaylist .= '<div class="gal-img">';
-							$displaylist .= '<a href="' . esc_url( $value['src'] ) . '" class="b-link-stripe b-animate-go swipebox">';
-								$displaylist .= '<div class="item item-type-double">';
-									$displaylist .= '<div class="item-hover">';
-										$displaylist .= '<div class="item-info">';
-											$displaylist .= '<div class="line"></div>';
-											$displaylist .= '<div class="headline">Style Decor</div>';
-											$displaylist .= '<div class="line"></div>';
-										$displaylist .= '</div>';
-										$displaylist .= '<div class="mask"></div>';
-									$displaylist .= '</div>';
-									$displaylist .= '<div class="item-img"><img src="' . wp_get_attachment_image_src( $value['id'] )[0] . '" alt="' . esc_html__( $alt ) . '"></div>';
-								$displaylist .= '</div>';
-							$displaylist .= '</a>';
-							$displaylist .= '<p>' . esc_html__( $caption ) . '</p>';
-						$displaylist .= '</div>';
-					$displaylist .= '</div>';
+					$imagemeta = wp_get_attachment_metadata( $value['id'] );
+
+					$imgsrc = '<img src="' . wp_get_attachment_image_src( $value['id'], 'medium' )[0] . '" alt="' . esc_html__( $alt ) . '">';
+
+					$srcset = wp_image_add_srcset_and_sizes( $imgsrc, $imagemeta, $value['id'] );
+
+					$displaylist .= '<li class="col-sm-4">';
+						$displaylist .= '<a href="' . esc_url( $value['src'] ) . '" class="swipebox" title="' . esc_html__( $caption ) . '">';
+							$displaylist .= $srcset;
+						$displaylist .= '</a>';
+					$displaylist .= '</li>';
 
 				}
 
-			$displaylist .= '</div>';
-
-			wp_enqueue_style( 'swipebox-css' );
-			wp_enqueue_script( 'swipebox-script' );
-			wp_enqueue_script( 'custom-swipebox-script' );
+			$displaylist .= '</ul>';
 
 			return $displaylist;
 
 		} else {
-			return 'Swipebox status must be publish.';
+
+			echo '<pre>';
+			echo var_dump(is_null( $post ));
+			die();
+
+			if ( is_null( $post ) ) {
+
+				return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid swipebox name. Please check it.</div>';
+
+			} else {
+
+				return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Swipebox status must be publish.</div>';
+
+			}
+
 		}
 
 	} else {
-		return 'Invalid shortcode. Please check it. Copy the shortcode provided from this link <a href="#">Link</a>';
+
+		return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid shortcode. Please fill in the swipebox name.</div>';
+
 	}
 
 }

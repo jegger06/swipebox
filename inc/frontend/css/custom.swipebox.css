@@ -1,0 +1,13 @@
+.swipebox-list {
+	margin: 0;
+	list-style: none;
+	padding: 0;
+}
+
+.swipebox-list li {
+	margin-bottom: 15px;
+}
+
+.swipebox-list li img {
+	width: 100%;
+}

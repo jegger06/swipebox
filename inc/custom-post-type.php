@@ -34,7 +34,7 @@ function csb_cpt_swipebox() {
 
 	$args = array(
 		'labels'				=> $labels,
-		'public'				=> true,
+		'public'				=> false,
 		'publicly_queryable'	=> true,
 		'exclude_from_search'	=> false,
 		'show_in_nav_menus'		=> false,
@@ -46,7 +46,7 @@ function csb_cpt_swipebox() {
 		'can_export'			=> true,
 		'delete_with_user'		=> false,
 		'hierarchical'			=> false,
-		'has_archive'			=> true,
+		'has_archive'			=> false,
 		'query_var'				=> true,
 		'capability_type'		=> 'post',
 		'map_meta_cap'			=> true,
