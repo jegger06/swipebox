@@ -11,3 +11,50 @@
 .swipebox-list li img {
 	width: 100%;
 }
+
+.swipebox-list li a {
+	display: block;
+	border: 1px solid #c1c1c1;
+	padding: 10px;
+	background-color: #fff;
+	border-radius: 5px;
+	-webkit-box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
+	box-shadow: 1px 1px 1px 1px rgba(0,0,0,0.1);
+}
+
+.swipebox-list li figure {
+	position: relative;
+	overflow: hidden;
+	border-radius: 3px;
+}
+
+.swipebox-list li figure:before {
+	position: absolute;
+	top: 0;
+	left: -75%;
+	z-index: 2;
+	display: block;
+	content: '';
+	width: 50%;
+	height: 100%;
+	background: -webkit-linear-gradient(left, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,.3) 100%);
+	-webkit-transform: skewX(-25deg);
+	transform: skewX(-25deg);
+}
+
+.swipebox-list li figure:hover:before {
+	-webkit-animation: shine .75s;
+	animation: shine .75s;
+}
+
+@-webkit-keyframes shine {
+	100% {
+		left: 125%;
+	}
+}
+@keyframes shine {
+	100% {
+		left: 125%;
+	}
+}

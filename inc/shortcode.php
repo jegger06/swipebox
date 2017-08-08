@@ -9,10 +9,6 @@
 
 */
 
-
-// Reference for the shortcode
-// $postID = get_page_by_title( {post_name}, OBJECT, 'custom-swipebox' );
-
 function csb_shortcode( $atts, $content = NULL ) {
 
 	$atts = shortcode_atts(
@@ -26,7 +22,7 @@ function csb_shortcode( $atts, $content = NULL ) {
 
 		$post = get_page_by_path( $atts['name'], OBJECT, 'custom-swipebox' );
 
-		if ( $post->post_status === 'publish' ) {
+		if ( $post->post_status === 'publish' && $post->post_password == '' ) {
 
 			wp_enqueue_style( 'swipebox-css' );
 			wp_enqueue_style( 'custom-swipebox-css' );
@@ -53,7 +49,7 @@ function csb_shortcode( $atts, $content = NULL ) {
 
 					$displaylist .= '<li class="col-sm-4">';
 						$displaylist .= '<a href="' . esc_url( $value['src'] ) . '" class="swipebox" title="' . esc_html__( $caption ) . '">';
-							$displaylist .= $srcset;
+							$displaylist .= '<figure>' . $srcset . '</figure>';
 						$displaylist .= '</a>';
 					$displaylist .= '</li>';
 
@@ -67,31 +63,49 @@ function csb_shortcode( $atts, $content = NULL ) {
 
 			$args = array(
 				'post_type' => 'custom-swipebox',
-				'post_name__in' => array( 'another-sample' ),
-				'post_status' => 'any'
+				'post_name__in' => array( $atts['name'] ),
+				'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'future', 'private', 'inherit', 'trash')
 			);
 
-			$query = new WP_Query($args);
+			$query = new WP_Query( $args );
 
-			// echo '<pre>';
-			// echo var_dump( empty( $query->post ) );
-			// die();
+			if ( !is_null( $query->post ) ) {
 
-			if ( empty( $query->post ) ) {
+				if ( $query->post->post_status == 'private' ) {
 
-				return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid swipebox name. Please check it.</div>';
+					$error = 'The swipebox <strong>post visibility</strong> must be on public not on private.';
+
+				} elseif ( $query->post->post_status == 'pending' ) {
+
+					$error = 'The swipebox <strong>post status</strong> must be publish not on pending review.';
+
+				} elseif ( $query->post->post_status == 'draft' ) {
+
+					$error = 'The swipebox <strong>post status</strong> must be publish not on draft.';
+
+				} elseif ( $query->post->post_status == 'publish' && !empty( $query->post->post_password ) ) {
+
+					$error = 'The swipebox <strong>post visibility</strong> must not be password protected.';
+
+				} elseif ( $query->post->post_status == 'trash' ) {
+
+					$error = 'The swipebox <strong>post</strong> must not be in trash.';
+
+				}
 
 			} else {
 
-				return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Swipebox status must be publish.</div>';
+				$error = 'The swipebox <strong>post</strong> must not be in trash and must be valid.';
 
 			}
+
+			return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> ' . $error . '</div>';
 
 		}
 
 	} else {
 
-		return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid shortcode. Please fill in the swipebox name.</div>';
+		return '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Warning!</strong> Invalid <strong>shortcode</strong>. Please fill in the swipebox name.</div>';
 
 	}
 
